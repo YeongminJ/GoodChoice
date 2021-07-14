@@ -1,6 +1,7 @@
 package com.jdi.goodchoice
 
 import android.app.Application
+import com.jdi.goodchoice.di.appModule
 import org.koin.core.context.startKoin
 
 class GoodChoiceApp : Application() {
@@ -9,7 +10,7 @@ class GoodChoiceApp : Application() {
         super.onCreate()
 
         startKoin {
-
+            modules(appModule)
         }
     }
 

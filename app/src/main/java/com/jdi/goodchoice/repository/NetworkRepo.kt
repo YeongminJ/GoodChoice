@@ -7,7 +7,7 @@ import retrofit2.Retrofit
 
 class NetworkRepo {
 
-    val BASE_URL =  "https://www.gccompany.co.kr"
+    private val BASE_URL =  "https://www.gccompany.co.kr"
 
     private val retrofit: Retrofit
     private val service: HotelService
