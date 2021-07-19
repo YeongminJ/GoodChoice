@@ -1,5 +1,6 @@
 package com.jdi.goodchoice.main
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,6 +9,7 @@ import com.jdi.goodchoice.api.Hotel
 import com.jdi.goodchoice.repository.NetworkRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class MainViewModel(val repo: NetworkRepo) : ViewModel() {
 
@@ -21,11 +23,15 @@ class MainViewModel(val repo: NetworkRepo) : ViewModel() {
     }
 
     fun getNextHotels() {
+        Log.d("JDI", "getNextHotels : $index")
         viewModelScope.launch(Dispatchers.IO) {
-            val result = repo.getHotels(index)
-
-            _hotels.postValue(result)
-            index++
+            try {
+                val result = repo.getHotels(index)
+                _hotels.postValue(result)
+                index++
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }
