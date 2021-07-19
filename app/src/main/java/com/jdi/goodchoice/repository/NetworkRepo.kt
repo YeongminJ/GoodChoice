@@ -4,6 +4,7 @@ import com.jdi.goodchoice.api.Hotel
 import com.jdi.goodchoice.api.HotelService
 import com.jdi.goodchoice.api.ResponseData
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class NetworkRepo {
 
@@ -14,6 +15,7 @@ class NetworkRepo {
     init {
         retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         service = retrofit.create(HotelService::class.java)

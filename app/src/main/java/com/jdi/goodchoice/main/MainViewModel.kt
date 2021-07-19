@@ -9,17 +9,23 @@ import com.jdi.goodchoice.repository.NetworkRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(repo: NetworkRepo) : ViewModel() {
+class MainViewModel(val repo: NetworkRepo) : ViewModel() {
 
     private var _hotels = MutableLiveData<List<Hotel>>()
     var hotels: LiveData<List<Hotel>> = _hotels
 
     var index: Int = 1
+
     init {
+        getNextHotels()
+    }
+
+    fun getNextHotels() {
         viewModelScope.launch(Dispatchers.IO) {
             val result = repo.getHotels(index)
 
             _hotels.postValue(result)
+            index++
         }
     }
 }
