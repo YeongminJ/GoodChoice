@@ -1,22 +1,26 @@
 package com.jdi.goodchoice.main.list
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.ListAdapter
+import com.jdi.goodchoice.api.Hotel
 import com.jdi.goodchoice.databinding.FragmentListBinding
 import com.jdi.goodchoice.detail.DetailActivity
 import com.jdi.goodchoice.main.HotelListAdapter
 import com.jdi.goodchoice.main.MainViewModel
-import com.jdi.goodchoice.model.Constant
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class ListFragment: Fragment() {
+
+class ListFragment : Fragment() {
 
     lateinit var binding: FragmentListBinding
     var listAdapter = HotelListAdapter()
@@ -34,22 +38,33 @@ class ListFragment: Fragment() {
             this.vm = viewModel
             recyclerView.adapter = listAdapter.apply {
                 onItemClick = {
-                    //go to detail
                     Intent(context, DetailActivity::class.java).apply {
                         putExtra(DetailActivity.EXTRA_HOTEL, it)
-                        startActivity(this)
+                        startForResult.launch(this)
                     }
                 }
                 toggleFavorite = {
                     //toggle favorite
+                    viewModel.updateFavorite(it)
                 }
             }
         }
         with(viewModel) {
             hotels.observe(viewLifecycleOwner, {
+                Log.d("JDI", "hotelList Observed ${it.size}")
                 listAdapter.submitList(it)
             })
         }
         return binding.root
+    }
+
+    var startForResult = registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
+        Log.d("JDI", "onResult $result")
+        if (result.resultCode == Activity.RESULT_OK) {
+            val hotel =
+                result.data?.getSerializableExtra(DetailActivity.EXTRA_HOTEL) as Hotel
+            viewModel.updateFavorite(hotel)
+            listAdapter.notifyDataSetChanged()
+        }
     }
 }

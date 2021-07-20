@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GoodChoice</string>
+    <string name="order_register">등록순</string>
+    <string name="order_rate">평점순</string>
 </resources>

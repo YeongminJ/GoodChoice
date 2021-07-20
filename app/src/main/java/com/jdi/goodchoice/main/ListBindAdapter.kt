@@ -12,10 +12,8 @@ object ListBindAdapter {
     @JvmStatic
     @BindingAdapter("scrollEndListener")
     fun setScrollEndListener(recycler: RecyclerView, scrollEvent: (() -> (Unit))?) {
-        Log.d("JDI", "setScrollEndListener $scrollEvent")
         recycler.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                Log.d("JDI", "onScrollStateChanged $newState")
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && newState == RecyclerView.SCROLL_STATE_IDLE) {
                     scrollEvent?.invoke()
@@ -27,7 +25,6 @@ object ListBindAdapter {
     @JvmStatic
     @BindingAdapter("setImage")
     fun setImage(view: ImageView, url: String?) {
-        Log.d("JDI", "setImage : $url")
         url?.let {
             Glide.with(view.context).load(it).into(view)
         }
@@ -36,6 +33,10 @@ object ListBindAdapter {
     @JvmStatic
     @BindingAdapter("favorite")
     fun adaptFavorite(view: ImageView, hotel: Hotel) {
-
+        if (hotel.isFavorite) {
+            view.setImageResource(android.R.drawable.btn_star_big_on)
+        } else {
+            view.setImageResource(android.R.drawable.btn_star_big_off)
+        }
     }
 }

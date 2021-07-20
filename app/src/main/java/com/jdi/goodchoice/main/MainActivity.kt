@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         favoriteFragment = FavoriteFragment()
         binding = DataBindingUtil.setContentView<ActivityMainBinding>(this ,R.layout.activity_main).apply {
             lifecycleOwner = this@MainActivity
-
             supportFragmentManager.beginTransaction().replace(container.id, listFragment).commit()
             tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {

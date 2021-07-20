@@ -7,6 +7,6 @@ import retrofit2.http.Path
 interface HotelService {
 
     @GET("/App/json/{index}.json")
-    suspend fun getHotels(@Path("index")index: Int): ResponseData
+    suspend fun getResponse(@Path("index")index: Int): ResponseData
 
 }

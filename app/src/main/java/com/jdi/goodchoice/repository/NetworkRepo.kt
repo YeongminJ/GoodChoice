@@ -2,7 +2,6 @@ package com.jdi.goodchoice.repository
 
 import com.jdi.goodchoice.api.Hotel
 import com.jdi.goodchoice.api.HotelService
-import com.jdi.goodchoice.api.ResponseData
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -22,6 +21,6 @@ class NetworkRepo {
     }
 
     suspend fun getHotels(index: Int): List<Hotel> {
-        return service.getHotels(index).data.product
+        return service.getResponse(index).data.product
     }
 }

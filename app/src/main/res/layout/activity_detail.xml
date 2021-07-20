@@ -2,6 +2,7 @@
 <layout>
 
     <data>
+
         <variable
             name="hotel"
             type="com.jdi.goodchoice.api.Hotel" />
@@ -14,7 +15,69 @@
         android:layout_height="match_parent"
         tools:context=".detail.DetailActivity">
 
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:setImage="@{hotel.description.imagePath}" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="#4000"
+            android:text="@{hotel.name}"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@android:drawable/star_big_off"
+            android:onClick="onFavariteClicked"
+            app:favorite="@{hotel}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/subject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@{hotel.description.subject}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text='@{"가격 : " + hotel.description.price}'
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subject" />
+
+        <TextView
+            android:id="@+id/rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text='@{"평점 : " + hotel.rate}'
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/price" />
+
+        <!--id": 1001,
+        "name": "내 집 같은 편안한 ",
+        "thumbnail": "https://gccompany.co.kr/App/thumbnail/thumb_img_1.jpg",
+        "description": {
+        "imagePath": "https://gccompany.co.kr/App/image/img_1.jpg",
+        "subject": "합리적인 가격으로 안심, 청결, 내 집 같은 편암함을 제공합니다.",
+        "price": 30000
+        },
+        "rate": 9.9-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

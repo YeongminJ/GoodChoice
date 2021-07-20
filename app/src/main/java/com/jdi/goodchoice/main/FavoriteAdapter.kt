@@ -1,6 +1,7 @@
 package com.jdi.goodchoice.main
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -9,22 +10,17 @@ import com.jdi.goodchoice.BR
 import com.jdi.goodchoice.api.Hotel
 import com.jdi.goodchoice.databinding.ListItemBinding
 
-class HotelListAdapter : ListAdapter<Hotel, HotelListAdapter.ItemViewHolder>(diffUtil) {
+class FavoriteAdapter : ListAdapter<Hotel, FavoriteAdapter.ItemViewHolder>(diffUtil) {
 
     var toggleFavorite : ((Hotel)->Unit)? = null
     var onItemClick : ((Hotel)->Unit)? = null
 
     inner class ItemViewHolder(val binding: ListItemBinding): RecyclerView.ViewHolder(binding.root) {
         init {
+            binding.itemDate.visibility = View.VISIBLE
+            binding.itemBtnFavorite.visibility = View.GONE
             binding.root.setOnClickListener {
                 onItemClick?.invoke(getItem(adapterPosition))
-            }
-            binding.itemBtnFavorite.setOnClickListener {
-                val item = getItem(adapterPosition)
-                //update
-                item.isFavorite = !item.isFavorite
-                notifyItemChanged(adapterPosition)
-                toggleFavorite?.invoke(item)
             }
         }
         fun bind(hotel: Hotel) {

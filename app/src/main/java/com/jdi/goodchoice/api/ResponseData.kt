@@ -1,6 +1,8 @@
 package com.jdi.goodchoice.api
 
+import io.realm.RealmObject
 import java.io.Serializable
+import java.util.*
 
 data class ResponseData(
     val msg: String,
@@ -18,11 +20,22 @@ data class Hotel(
     val name: String,
     val thumbnail: String,
     val description: HotelDescription,
-    val rate: Float
-): Serializable
+    val rate: Float,
+    var isFavorite: Boolean,
+    var date: Date = Date()
+): Serializable {
+    override fun toString(): String {
+        return "$id+$name"
+    }
+    companion object {
+        val FIELD_ID = "id"
+        val FIELD_DATE = "date"
+    }
+}
 
 data class HotelDescription(
     val imagePath: String,
     val subject: String,
     val price: Long
 ): Serializable
+
