@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.jdi.goodchoice.R
@@ -22,6 +23,7 @@ class FavoriteFragment: Fragment() {
 
     lateinit var binding: FavoriteListBinding
     val viewModel: MainViewModel by sharedViewModel()
+    lateinit var startForResult: ActivityResultLauncher<Intent>
 
     var listAdapter = FavoriteAdapter()
 
@@ -35,7 +37,15 @@ class FavoriteFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("JDI", "onCreateView")
+        startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            Log.d("JDI", "onResult $result")
+            if (result.resultCode == Activity.RESULT_OK) {
+                val hotel =
+                    result.data?.getSerializableExtra(DetailActivity.EXTRA_HOTEL) as Hotel
+                viewModel.updateFavorite(hotel)
+                listAdapter.notifyDataSetChanged()
+            }
+        }
         binding = FavoriteListBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = this@FavoriteFragment
             this.vm = viewModel
@@ -78,15 +88,5 @@ class FavoriteFragment: Fragment() {
         }
 
         return binding.root
-    }
-
-    var startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        Log.d("JDI", "onResult $result")
-        if (result.resultCode == Activity.RESULT_OK) {
-            val hotel =
-                result.data?.getSerializableExtra(DetailActivity.EXTRA_HOTEL) as Hotel
-            viewModel.updateFavorite(hotel)
-            listAdapter.notifyDataSetChanged()
-        }
     }
 }

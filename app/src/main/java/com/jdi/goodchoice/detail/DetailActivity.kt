@@ -18,6 +18,8 @@ class DetailActivity : AppCompatActivity() {
         val EXTRA_HOTEL = "extra_hotel"
     }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

@@ -54,7 +54,7 @@ class MainViewModel(val repo: NetworkRepo, val localRepo: LocalRepo) : ViewModel
             localRepo.insertFavorite(hotel)
         }
         //update Hotel
-        _hotels.value?.let {
+        val newList = _hotels.value?.let {
             for (i in it.indices) {
                 if (it[i].id == hotel.id) {
                     it[i] = hotel

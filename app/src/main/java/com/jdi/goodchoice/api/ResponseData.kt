@@ -25,7 +25,7 @@ data class Hotel(
     var date: Date = Date()
 ): Serializable {
     override fun toString(): String {
-        return "$id+$name"
+        return "$id+$name$isFavorite"
     }
     companion object {
         val FIELD_ID = "id"

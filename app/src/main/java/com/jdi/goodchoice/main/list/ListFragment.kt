@@ -26,13 +26,21 @@ class ListFragment : Fragment() {
     var listAdapter = HotelListAdapter()
 
     private val viewModel: MainViewModel by sharedViewModel()
-
+    lateinit var startForResult: ActivityResultLauncher<Intent>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("JDI", "onCreateView")
+        startForResult = registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
+            Log.d("JDI", "onResult $result")
+            if (result.resultCode == Activity.RESULT_OK) {
+                val hotel =
+                    result.data?.getSerializableExtra(DetailActivity.EXTRA_HOTEL) as Hotel
+                viewModel.updateFavorite(hotel)
+                listAdapter.notifyDataSetChanged()
+            }
+        }
         binding = FragmentListBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = this@ListFragment
             this.vm = viewModel
@@ -58,13 +66,5 @@ class ListFragment : Fragment() {
         return binding.root
     }
 
-    var startForResult = registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
-        Log.d("JDI", "onResult $result")
-        if (result.resultCode == Activity.RESULT_OK) {
-            val hotel =
-                result.data?.getSerializableExtra(DetailActivity.EXTRA_HOTEL) as Hotel
-            viewModel.updateFavorite(hotel)
-            listAdapter.notifyDataSetChanged()
-        }
-    }
+
 }
